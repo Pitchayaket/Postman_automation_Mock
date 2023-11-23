@@ -2703,7 +2703,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204-209-210 TC_M0107 Payment Inquiry failed - NOT PAID",
+					"name": "TC_M0107 Payment Inquiry failed - NOT PAID",
 					"event": [
 						{
 							"listen": "test",
@@ -3260,8 +3260,13 @@
 									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
 									"        pm.expect(jsonData.data.extra1).to.include(\"extraInfo1\");",
 									"        pm.expect(jsonData.data.extra2).to.include(\"extraInfo2\");",
-									"        pm.expect(jsonData.data.termType).to.be.exist;",
-									"        pm.expect(jsonData.data.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.termType).to.include(\"10\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromName).to.include(\"Mr. John Doe\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.bankRef).to.include(\"bankRef\");",
+									"        pm.expect(jsonData.data.qrCardInfo).to.be.exist;",
+									"        pm.expect(jsonData.data.qrCardInfo.traceNum).to.be.exist;",
+									"        pm.expect(jsonData.data.qrCardInfo.custPAN).to.be.exist;",
 									"    });",
 									"});"
 								],
@@ -3307,6 +3312,89 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-prevoid}}\",\r\n        \"reference1\": \"{{reference1-prevoid}}\",\r\n        \"reference2\": \"\", //should be unique for each request\r\n        \"reference3\": \"\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"179.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"biller",
+								"v1",
+								"payment-inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bug BAPI-204 TC_M0105 _1 Payment Inquiry - PREVOID request only qrPromptpayInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"",
+									"    pm.test(\"Body contains string\",() => {",
+									"        let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.data.statusMesg).to.include(\"PREVOID\");",
+									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
+									"        pm.expect(jsonData.data.extra1).to.include(\"extraInfo1\");",
+									"        pm.expect(jsonData.data.extra2).to.include(\"extraInfo2\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.termType).to.include(\"10\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromName).to.include(\"Mr. John Doe\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.bankRef).to.include(\"bankRef\");",
+									"        pm.expect(jsonData.data.qrCardInfo).not.exist;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "transmit-date-time",
+								"value": "{{transmit-date-time}}"
+							},
+							{
+								"key": "request-ref",
+								"value": "{{request-ref-prevoid}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-prevoid}}\",\r\n        \"reference1\": \"{{reference1-prevoid}}\",\r\n        \"reference2\": \"\", //should be unique for each request\r\n        \"reference3\": \"\"\r\n    },\r\n    \"amount\": \"179.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
@@ -5099,11 +5187,14 @@
 									"    pm.test(\"Body contains string\",() => {",
 									"        let jsonData = pm.response.json()",
 									"        pm.expect(jsonData.data.statusMesg).to.include(\"PAID\");",
-									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
 									"        pm.expect(jsonData.data.extra1).to.include(\"extraInfo1\");",
 									"        pm.expect(jsonData.data.extra2).to.include(\"extraInfo2\");",
-									"        pm.expect(jsonData.data.termType).to.be.exist;",
-									"        pm.expect(jsonData.data.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.termType).to.include(\"10\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromName).to.include(\"Mr. John Doe\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.bankRef).to.include(\"bankRef\");",
+									"        pm.expect(jsonData.data.qrCardInfo).exist;",
 									"    });",
 									"});"
 								],
@@ -5148,7 +5239,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-reversal}}\",\r\n        \"reference1\": \"{{reference1-reversal}}\",\r\n        \"reference2\": \"\", //should be unique for each request\r\n        \"reference3\": \"\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"750.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
+							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-reversal}}\",\r\n        \"reference1\": \"{{reference1-reversal}}\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"750.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
@@ -6236,7 +6327,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"qrPromptpayInfo\": {\n        \"billerId\": \"{{billerId-void}}\",\n        \"reference1\": \"{{reference1-void}}\",\n        \"reference2\": \"\", //should be unique for each request\n        \"reference3\": \"\"\n    },\n    \"amount\": \"1450.00\",\n    \"requestDate\": \"{{requestDate}}\",\n    \"requestTime\": \"{{requestTime}}\",\n    \"merchantCountry\": \"TH\",\n    \"merchantName\": \"TINY1234\",\n    \"extra1\": \"extraInfo1\",\n    \"extra2\": \"extraInfo2\"\n}",
+							"raw": "{\n    \"qrPromptpayInfo\": {\n        \"billerId\": \"{{billerId-void}}\",\n        \"reference1\": \"{{reference1-void}}\",\n        \"reference2\": \"\", //should be unique for each request\n        \"reference3\": \"\"\n    },\n    \"amount\": \"1450.00\",\n    \"requestDate\": \"{{requestDate}}\",\n    \"requestTime\": \"{{requestTime}}\",\n    \"merchantCountry\": \"TH\",\n    \"merchantName\": \"TINY1234\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -7683,10 +7774,13 @@
 									"        let jsonData = pm.response.json()",
 									"        pm.expect(jsonData.data.statusMesg).to.include(\"VOID\");",
 									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
-									"        pm.expect(jsonData.data.extra1).to.include(\"extraInfo1\");",
-									"        pm.expect(jsonData.data.extra2).to.include(\"extraInfo2\");",
-									"        pm.expect(jsonData.data.termType).to.be.exist;",
-									"        pm.expect(jsonData.data.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.extra1).not.exist;",
+									"        pm.expect(jsonData.data.extra2).not.exist;",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.termType).to.include(\"10\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromBank).to.include(\"BBL\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.fromName).to.include(\"Mr. John Doe\");",
+									"        pm.expect(jsonData.data.qrPromptpayInfo.bankRef).to.include(\"bankRef\");",
+									"        pm.expect(jsonData.data.qrCardInfo).to.be.exist;",
 									"    });",
 									"});"
 								],
@@ -7732,6 +7826,157 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-void}}\",\r\n        \"reference1\": \"{{reference1-void}}\",\r\n        \"reference2\": \"\", //should be unique for each request\r\n        \"reference3\": \"\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"biller",
+								"v1",
+								"payment-inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bug BAPI-204 TC_M0106_1 Payment Inquiry - VOID request only qrCardInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"",
+									"    pm.test(\"Body contains string\",() => {",
+									"        let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
+									"        pm.expect(jsonData.data.qrCardInfo).to.be.exist;",
+									"        pm.expect(jsonData.data.qrPromptpayInfo).not.to.be.exist;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "transmit-date-time",
+								"value": "{{transmit-date-time}}"
+							},
+							{
+								"key": "request-ref",
+								"value": "{{request-ref-void}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"biller",
+								"v1",
+								"payment-inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0106_2 Payment Inquiry - VOID request both card and promotpay but data not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.test(\"Status code is 209\", function () {",
+									"        pm.response.to.have.status(209);",
+									"    });",
+									"",
+									"    pm.test(\"Body contains string\",() => {",
+									"        pm.expect(pm.response.text()).to.include(\"Transaction not found\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "transmit-date-time",
+								"value": "{{transmit-date-time}}"
+							},
+							{
+								"key": "request-ref",
+								"value": "{{request-ref-void}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"REF100900900000\",\r\n        \"reference1\": \"REF2009999991\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
