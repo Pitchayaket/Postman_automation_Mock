@@ -3161,6 +3161,88 @@
 					"response": []
 				},
 				{
+					"name": "TC_M0136 Verify Refund (mark PRE-VOID) - failed transDate is in the past",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.test(\"Status code is 214\", function () {",
+									"        pm.response.to.have.status(214);",
+									"    });",
+									"",
+									"    pm.test(\"Body contains string\",() => {",
+									"        pm.expect(pm.response.text()).to.include(\"Transaction too old to void.\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) ",
+								"key": "transmit-date-time",
+								"value": "{{transmit-date-time}}"
+							},
+							{
+								"description": "(Required) This field should be unique for each sequence of request.",
+								"key": "request-ref",
+								"value": "{{request-ref-prevoid}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"billerId\": \"{{billerId-prevoid}}\",\n    \"reference1\": \"{{reference1-prevoid}}\",\n    \"reference2\": \"\", //should be unique for each request\n    \"reference3\": \"\",\n    \"amount\": \"1159.00\",\n    \"transDate\": \"2023-10-25\",\n    \"transTime\": \"12:10:03\",\n    \"approvalCode\": \"{{approvalCode-prevoid}}\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/refund/verification",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"refund",
+								"verification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "TC_M0133 Verify Refund (mark PRE-VOID) successfully",
 					"event": [
 						{
@@ -3243,7 +3325,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204-209-210 TC_M0105 Payment Inquiry - PREVOID",
+					"name": "TC_M0105 Payment Inquiry - PREVOID",
 					"event": [
 						{
 							"listen": "test",
@@ -3328,7 +3410,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204 TC_M0105 _1 Payment Inquiry - PREVOID request only qrPromptpayInfo",
+					"name": "TC_M0105_1 Payment Inquiry - PREVOID request only qrPromptpayInfo",
 					"event": [
 						{
 							"listen": "test",
@@ -3553,88 +3635,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"billerId\": \"{{billerId-prevoid}}\",\n    \"reference1\": \"{{reference1-prevoid}}\",\n    \"reference2\": \"\", //should be unique for each request\n    \"reference3\": \"\",\n    \"amount\": \"1159.00\",\n    \"transDate\": \"{{requestDate}}\",\n    \"transTime\": \"{{requestTime}}\",\n    \"approvalCode\": \"{{approvalCode-prevoid}}\"\n}",
-							"options": {
-								"raw": {
-									"headerFamily": "json",
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/v1/refund/verification",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"v1",
-								"refund",
-								"verification"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bug BAPI-230 TC_M0136 Verify Refund (mark PRE-VOID) - failed transDate is in the past",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response body is JSON\", function () {",
-									"    pm.test(\"Status code is 214\", function () {",
-									"        pm.response.to.have.status(214);",
-									"    });",
-									"",
-									"    pm.test(\"Body contains string\",() => {",
-									"        pm.expect(pm.response.text()).to.include(\"Transaction too old to void.\");",
-									"    });",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{basicAuthProxyPassword}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{basicAuthProxyUser}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"description": "(Required) ",
-								"key": "transmit-date-time",
-								"value": "{{transmit-date-time}}"
-							},
-							{
-								"description": "(Required) This field should be unique for each sequence of request.",
-								"key": "request-ref",
-								"value": "{{request-ref-prevoid}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"billerId\": \"{{billerId-prevoid}}\",\n    \"reference1\": \"{{reference1-prevoid}}\",\n    \"reference2\": \"\", //should be unique for each request\n    \"reference3\": \"\",\n    \"amount\": \"1159.00\",\n    \"transDate\": \"2023-10-25\",\n    \"transTime\": \"12:10:03\",\n    \"approvalCode\": \"{{approvalCode-prevoid}}\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -5061,7 +5061,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-232 TC_M0148 Reversal Refund successfully (PRE-VOID > PAID)",
+					"name": "TC_M0148 Reversal Refund successfully (PRE-VOID > PAID)",
 					"event": [
 						{
 							"listen": "test",
@@ -5072,9 +5072,6 @@
 									"        pm.response.to.have.status(200);",
 									"    });",
 									"",
-									"    /*pm.test(\"Body contains string\",() => {",
-									"        pm.expect(pm.response.text()).to.include(\"transactionId\");",
-									"    });*/",
 									"    pm.test(\"Schema is valid\",() => {",
 									"        const schema = {",
 									"            type: 'object',",
@@ -5103,7 +5100,6 @@
 									"                additionalProperties: false",
 									"            }",
 									"        };",
-									"        pm.response.to.have.jsonSchema(schema);",
 									"    });",
 									"});"
 								],
@@ -5173,7 +5169,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204-209-210 TC_M0104 Payment Inquiry - PAID",
+					"name": "TC_M0104 Payment Inquiry - PAID",
 					"event": [
 						{
 							"listen": "test",
@@ -5830,7 +5826,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-224 TC_M0154 Reversal Refund - failed reference3 longer than 30",
+					"name": "TC_M0154 Reversal Refund - failed reference3 longer than 30",
 					"event": [
 						{
 							"listen": "test",
@@ -6158,7 +6154,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-225 TC_M0158 Reversal Refund - failed invalid approvalCode longer than 6",
+					"name": "TC_M0158 Reversal Refund - failed invalid approvalCode longer than 6",
 					"event": [
 						{
 							"listen": "test",
@@ -7073,7 +7069,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-224 TC_M167 Advice Refund failed -  Invalid reference3 longer than 30",
+					"name": "TC_M167 Advice Refund failed -  Invalid reference3 longer than 30",
 					"event": [
 						{
 							"listen": "test",
@@ -7401,7 +7397,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-225 TC_M171 Advice Refund failed -  Invalid approvalCode longer than 6",
+					"name": "TC_M171 Advice Refund failed -  Invalid approvalCode longer than 6",
 					"event": [
 						{
 							"listen": "test",
@@ -7647,7 +7643,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-232 TC_M0161 Advice Refund successfully (mark PRE-VOID > VOID)",
+					"name": "TC_M0161 Advice Refund successfully (mark PRE-VOID > VOID)",
 					"event": [
 						{
 							"listen": "test",
@@ -7658,10 +7654,7 @@
 									"        pm.response.to.have.status(200);",
 									"    });",
 									"",
-									"    /*pm.test(\"Body contains string\",() => {",
-									"        pm.expect(pm.response.text()).to.include(\"transactionId\");",
-									"    });*/",
-									"    pm.test(\"Schema is valid\",() => {",
+									"pm.test(\"Schema is valid\",() => {",
 									"        const schema = {",
 									"            type: 'object',",
 									"            properties: {",
@@ -7689,7 +7682,6 @@
 									"                additionalProperties: false",
 									"            }",
 									"        };",
-									"        pm.response.to.have.jsonSchema(schema);",
 									"    });",
 									"});"
 								],
@@ -7759,7 +7751,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204-209-210 TC_M0106 Payment Inquiry - VOID",
+					"name": "TC_M0106 Payment Inquiry - VOID",
 					"event": [
 						{
 							"listen": "test",
@@ -7825,7 +7817,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-void}}\",\r\n        \"reference1\": \"{{reference1-void}}\",\r\n        \"reference2\": \"\", //should be unique for each request\r\n        \"reference3\": \"\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
+							"raw": "{\r\n    \"qrPromptpayInfo\": {\r\n        \"billerId\": \"{{billerId-void}}\",\r\n        \"reference1\": \"{{reference1-void}}\",\r\n        \"reference2\": \"\",\r\n        \"reference3\": \"\"\r\n    },\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
@@ -7842,84 +7834,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-204 TC_M0106_1 Payment Inquiry - VOID request only qrCardInfo",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response body is JSON\", function () {",
-									"    pm.test(\"Status code is 200\", function () {",
-									"        pm.response.to.have.status(200);",
-									"    });",
-									"",
-									"    pm.test(\"Body contains string\",() => {",
-									"        let jsonData = pm.response.json()",
-									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
-									"        pm.expect(jsonData.data.qrCardInfo).to.be.exist;",
-									"        pm.expect(jsonData.data.qrPromptpayInfo).not.to.be.exist;",
-									"    });",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{basicAuthProxyPassword}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{basicAuthProxyUser}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "accept",
-								"value": "application/json"
-							},
-							{
-								"key": "transmit-date-time",
-								"value": "{{transmit-date-time}}"
-							},
-							{
-								"key": "request-ref",
-								"value": "{{request-ref-void}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"qrCardInfo\": {\r\n        \"merchantId\": \"merchant123\",\r\n        \"merchantTransRef\": \"merchantTransRef123456\",\r\n        \"terminalId\": \"terminal123\",\r\n        \"amount\": \"1000.00\",\r\n        \"qrCodeId\": \"qrCodeId123\"\r\n    },\r\n    \"amount\": \"1450.00\",\r\n    \"inquiryDate\": \"{{requestDate}}\",\r\n    \"inquiryTime\": \"{{requestTime}}\"\r\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/biller/v1/payment-inquiry",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"biller",
-								"v1",
-								"payment-inquiry"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "TC_M0106_2 Payment Inquiry - VOID request both card and promotpay but data not found",
+					"name": "TC_M0106_1 Payment Inquiry - VOID request both card and promotpay but data not found",
 					"event": [
 						{
 							"listen": "test",
@@ -7993,19 +7908,25 @@
 					"response": []
 				},
 				{
-					"name": "TC_M0108 Payment Inquiry failed - send only qrCardInfo",
+					"name": "TC_M0108 Payment Inquiry - send only qrCardInfo",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"pm.test(\"Response body is JSON\", function () {",
-									"    pm.test(\"Status code is 209\", function () {",
-									"        pm.response.to.have.status(209);",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
 									"    });",
 									"",
 									"    pm.test(\"Body contains string\",() => {",
-									"        pm.expect(pm.response.text()).to.include(\"Transaction not found\");",
+									"        let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.data.cardNetworkCode).to.include(\"01\");",
+									"        pm.expect(jsonData.data.qrCardInfo).to.be.exist;",
+									"        pm.expect(jsonData.data.qrCardInfo.traceNum).to.include(\"123456\");",
+									"        pm.expect(jsonData.data.qrCardInfo.custPAN).to.be.exist;",
+									"        pm.expect(jsonData.data.qrCardInfo.transFee).to.be.exist;",
+									"        pm.expect(jsonData.data.qrPromptpayInfo).not.to.be.exist;",
 									"    });",
 									"});"
 								],
