@@ -172,7 +172,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -255,7 +255,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -338,12 +338,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023/10/30T11:07:11.855+07:00"
+								"value": "2023-10-24T14.08+07.00"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}009"
 							},
 							{
 								"key": "Content-Type",
@@ -421,12 +421,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -504,12 +504,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -587,12 +587,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -670,12 +670,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -753,12 +753,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -836,12 +836,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -877,7 +877,7 @@
 					"response": []
 				},
 				{
-					"name": "TC_M0118_1 Generate QR failed-invalid billerID is empty",
+					"name": "Bug BAPI-258 TC_M0118_1 Generate QR failed-invalid billerID is empty",
 					"event": [
 						{
 							"listen": "test",
@@ -893,6 +893,16 @@
 									"        pm.expect(pm.response.text()).to.include(\"billerId is required\");",
 									"    });",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"pm.collectionVariables.set(\"request-ref\", moment().format(\"yyyyMMDDHHmmss000ss\"));"
 								],
 								"type": "text/javascript"
 							}
@@ -919,12 +929,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -937,7 +947,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"qrPromptpayInfo\": {\n        \"billerId\": \"\",\n        \"reference1\": \"{{reference1}}\",\n        \"reference2\": \"\", //should be unique for each request\n        \"reference3\": \"\"\n    },\n    \"amount\": \"699.-\",\n    \"requestDate\": \"{{requestDate}}\",\n    \"requestTime\": \"{{requestTime}}\",\n    \"merchantCountry\": \"TH\",\n    \"merchantName\": \"KT2928\",\n    \"extra1\": \"extraInfo1\",\n    \"extra2\": \"extraInfo2\"\n}",
+							"raw": "{\n    \"qrPromptpayInfo\": {\n        \"billerId\": \"\",\n        \"reference1\": \"{{reference1}}\",\n        \"reference2\": \"\", //should be unique for each request\n        \"reference3\": \"\"\n    },\n    \"amount\": \"699.00\",\n    \"requestDate\": \"{{requestDate}}\",\n    \"requestTime\": \"{{requestTime}}\",\n    \"merchantCountry\": \"TH\",\n    \"merchantName\": \"KT2928\",\n    \"extra1\": \"extraInfo1\",\n    \"extra2\": \"extraInfo2\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -1002,12 +1012,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1043,7 +1053,7 @@
 					"response": []
 				},
 				{
-					"name": "TC_M0119_1 Generate QR failed-invalid reference1 is empty",
+					"name": "Bug BAPI-258 TC_M0119_1 Generate QR failed-invalid reference1 is empty",
 					"event": [
 						{
 							"listen": "test",
@@ -1059,6 +1069,16 @@
 									"        pm.expect(pm.response.text()).to.include(\"reference1 is required\");",
 									"    });",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"pm.collectionVariables.set(\"request-ref\", moment().format(\"yyyyMMDDHHmmss000ss\"));"
 								],
 								"type": "text/javascript"
 							}
@@ -1085,12 +1105,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1167,12 +1187,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1249,12 +1269,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1331,12 +1351,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1413,12 +1433,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-30T11:07:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "202310300002"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1458,6 +1478,100 @@
 		{
 			"name": "2.Payment Request",
 			"item": [
+				{
+					"name": "Pre-Step Generate QR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.unset(\"request-ref\");",
+									"pm.collectionVariables.unset(\"reference1\");",
+									"pm.collectionVariables.unset(\"billerId\");",
+									"",
+									"const moment = require('moment');",
+									"",
+									"pm.collectionVariables.set(\"request-ref\", moment().format(\"yyyyMMDDHHmmss\"));",
+									"pm.collectionVariables.set(\"reference1\", moment().format(\"yyyyMMDDHHmmss01\"));",
+									"pm.collectionVariables.set(\"billerId\", moment().format(\"yyyyMMDDHHmmss0\"));",
+									"pm.collectionVariables.set(\"requestDate\", moment().format(\"yyyy-MM-DD\"));",
+									"pm.collectionVariables.set(\"requestTime\", moment().format(\"HH:mm:ss\"));",
+									"pm.collectionVariables.set(\"transmit-date-time\", moment().format(\"yyyy-MM-DDTHH:mm:ss.855+07:00\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) ",
+								"key": "transmit-date-time",
+								"value": "{{transmit-date-time}}"
+							},
+							{
+								"description": "(Required) This field should be unique for each sequence of request.",
+								"key": "request-ref",
+								"value": "{{request-ref}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"qrPromptpayInfo\": {\n        \"billerId\": \"{{billerId}}\",\n        \"reference1\": \"{{reference1}}\",\n        \"reference2\": \"\", //should be unique for each request\n        \"reference3\": \"\"\n    },\n    \"amount\": \"179.00\",\n    \"requestDate\": \"{{requestDate}}\",\n    \"requestTime\": \"{{requestTime}}\",\n    \"merchantCountry\": \"TH\",\n    \"merchantName\": \"KR98370\",\n    \"extra1\": \"extraInfo1\",\n    \"extra2\": \"extraInfo2\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/biller/v1/qr-generate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"biller",
+								"v1",
+								"qr-generate"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "TC_M0101 Request Payment successfully",
 					"event": [
@@ -1551,12 +1665,12 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Response body is JSON\", function () {",
-									"    pm.test(\"Status code is 404\", function () {",
-									"        pm.response.to.have.status(404);",
+									"    pm.test(\"Status code is 209\", function () {",
+									"        pm.response.to.have.status(209);",
 									"    });",
 									"",
 									"    pm.test(\"Body contains string\",() => {",
-									"        pm.expect(pm.response.text()).to.include(\"QR Data not found\");",
+									"        pm.expect(pm.response.text()).to.include(\"Transaction not found\");",
 									"    });",
 									"});"
 								],
@@ -1585,12 +1699,12 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-08-10T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
 								"key": "request-ref",
-								"value": "REF00000001"
+								"value": "{{request-ref}}"
 							},
 							{
 								"key": "Content-Type",
@@ -1667,7 +1781,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -1750,7 +1864,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -1999,7 +2113,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2082,7 +2196,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2165,7 +2279,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2248,7 +2362,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2331,7 +2445,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2414,7 +2528,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2497,7 +2611,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2579,7 +2693,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
@@ -2662,7 +2776,7 @@
 							{
 								"description": "(Required) ",
 								"key": "transmit-date-time",
-								"value": "2023-10-31T15:23:11.855+07:00"
+								"value": "{{transmit-date-time}}"
 							},
 							{
 								"description": "(Required) This field should be unique for each sequence of request.",
