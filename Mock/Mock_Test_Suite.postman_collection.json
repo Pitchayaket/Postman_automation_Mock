@@ -877,7 +877,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-258 TC_M0118_1 Generate QR failed-invalid billerID is empty",
+					"name": "TC_M0118_1 Generate QR failed-invalid billerID is empty",
 					"event": [
 						{
 							"listen": "test",
@@ -1053,7 +1053,7 @@
 					"response": []
 				},
 				{
-					"name": "Bug BAPI-258 TC_M0119_1 Generate QR failed-invalid reference1 is empty",
+					"name": "TC_M0119_1 Generate QR failed-invalid reference1 is empty",
 					"event": [
 						{
 							"listen": "test",
@@ -5208,12 +5208,12 @@
 									"                        },",
 									"                        transactionId: {",
 									"                            type: 'string'",
-									"                        },",
-									"                        additionalProperties: false",
+									"                        }",
 									"                },",
 									"                additionalProperties: false",
 									"            }",
 									"        };",
+									"        pm.response.to.have.jsonSchema(schema);",
 									"    });",
 									"});"
 								],
@@ -7790,12 +7790,12 @@
 									"                        },",
 									"                        transactionId: {",
 									"                            type: 'string'",
-									"                        },",
-									"                        additionalProperties: false",
+									"                        }",
 									"                },",
 									"                additionalProperties: false",
 									"            }",
 									"        };",
+									"        pm.response.to.have.jsonSchema(schema);",
 									"    });",
 									"});"
 								],
@@ -8266,6 +8266,1804 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "7.Pull Payment",
+			"item": [
+				{
+					"name": "TC_M0174_Get promptpay transaction data successfully",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"    ",
+									"    const schema = {",
+									"        type: 'object',",
+									"        properties: {",
+									"            status: {",
+									"                code: {",
+									"                    type: 'string'",
+									"                },",
+									"                desc: {",
+									"                    type: 'string' ",
+									"                }",
+									"            },",
+									"            result: {",
+									"                account: {",
+									"                    transRefNum: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    transactionDateTime: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromProxyType: {",
+									"                        type: 'decimal'",
+									"                    },",
+									"                    fromProxyID: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromAccountNum: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromBankCode: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromAccountName: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromAccountDisplayName: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    fromAccountType: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toProxyType: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toProxyID: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toAccountNum: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toBankCode: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toAccountName: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toAccountDisplayName: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    toAccountType: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    transactionAmount: {",
+									"                        amount: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        required: ['amount'],",
+									"                    },",
+									"                    required: ['transactionAmount'],",
+									"                    countryCode: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    references: {",
+									"                        refNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        value: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        required: ['refNum']",
+									"                    },",
+									"                    required: ['references']",
+									"                }",
+									"            },",
+									"            additionalProperties: false",
+									"        },",
+									"        required: ['status']",
+									"    };",
+									"    pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/325012011110IMF2063A57AB/from-bank-code/098",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"325012011110IMF2063A57AB",
+								"from-bank-code",
+								"098"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0175_Get promptpay transaction data successfully send data in header",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"    pm.test(\"Schema is valid\",() => {",
+									"        const schema = {",
+									"            type: 'object',",
+									"            properties: {",
+									"                status: {",
+									"                    code: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    desc: {",
+									"                       type: 'string' ",
+									"                    }",
+									"                },",
+									"                result: {",
+									"                    account: {",
+									"                        transRefNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionDateTime: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromProxyType: {",
+									"                            type: 'decimal'",
+									"                        },",
+									"                        fromProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionAmount: {",
+									"                            amount: {",
+									"                                type: 'string'",
+									"                            },",
+									"                            required: ['amount'],",
+									"                        },",
+									"                        required: ['transactionAmount'],",
+									"                        countryCode: {",
+									"                            type: 'string'",
+									"                        }",
+									"                    }",
+									"                },",
+									"                additionalProperties: false",
+									"            }",
+									"        };",
+									"        pm.response.to.have.jsonSchema(schema);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-Teller",
+								"value": "Test",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Terminal",
+								"value": "009",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Branch",
+								"value": "012",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Format",
+								"value": "BBLAPC",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Channel",
+								"value": "MB",
+								"type": "text"
+							},
+							{
+								"key": "BBL-TraceID",
+								"value": "10009801000091",
+								"type": "text"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "10009801000091-00111",
+								"type": "text"
+							},
+							{
+								"key": "BBL-BAN",
+								"value": "0000203000101410",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Language",
+								"value": "TH",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-08",
+								"type": "text"
+							},
+							{
+								"key": "BBL-AdditonalInfo",
+								"value": "TESTONLY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/325012011098IMF2063A57AB/from-bank-code/098",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"325012011098IMF2063A57AB",
+								"from-bank-code",
+								"098"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0176_Get promptpay transaction data successfully send some data in header",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"    pm.test(\"Schema is valid\",() => {",
+									"        const schema = {",
+									"            type: 'object',",
+									"            properties: {",
+									"                status: {",
+									"                    code: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    desc: {",
+									"                       type: 'string' ",
+									"                    }",
+									"                },",
+									"                result: {",
+									"                    account: {",
+									"                        transRefNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionDateTime: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromProxyType: {",
+									"                            type: 'decimal'",
+									"                        },",
+									"                        fromProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionAmount: {",
+									"                            amount: {",
+									"                                type: 'string'",
+									"                            },",
+									"                            required: ['amount']",
+									"                        },",
+									"                        required: ['transactionAmount'],",
+									"                        countryCode: {",
+									"                            type: 'string'",
+									"                        }",
+									"                    }",
+									"                },",
+									"                additionalProperties: false",
+									"            }",
+									"        };",
+									"        pm.response.to.have.jsonSchema(schema);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-Branch",
+								"value": "035",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Format",
+								"value": "BBLAPC",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Channel",
+								"value": "BR",
+								"type": "text"
+							},
+							{
+								"key": "BBL-TraceID",
+								"value": "10009801000091",
+								"type": "text"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "10009801000091-00111",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Language",
+								"value": "EN",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-12",
+								"type": "text"
+							},
+							{
+								"key": "BBL-AdditonalInfo",
+								"value": "TESTONLY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/2023090512061223005702908/from-bank-code/002",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"2023090512061223005702908",
+								"from-bank-code",
+								"002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0177_Get promptpay transaction data successfully send some data in header",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"    pm.test(\"Schema is valid\",() => {",
+									"        const schema = {",
+									"            type: 'object',",
+									"            properties: {",
+									"                status: {",
+									"                    code: {",
+									"                        type: 'string'",
+									"                    },",
+									"                    desc: {",
+									"                       type: 'string' ",
+									"                    }",
+									"                },",
+									"                result: {",
+									"                    account: {",
+									"                        transRefNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionDateTime: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromProxyType: {",
+									"                            type: 'decimal'",
+									"                        },",
+									"                        fromProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        fromAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toProxyID: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toBankCode: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountDisplayName: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        toAccountType: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        transactionAmount: {",
+									"                            amount: {",
+									"                                type: 'string'",
+									"                            },",
+									"                            required: ['amount']",
+									"                        },",
+									"                        required: ['transactionAmount'],",
+									"                        references: {",
+									"                        refNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        value: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        required: ['refNum'],",
+									"                        refNum: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        value: {",
+									"                            type: 'string'",
+									"                        },",
+									"                        required: ['refNum']",
+									"                    },",
+									"                    required: ['references']",
+									"                    }",
+									"                },",
+									"                additionalProperties: false",
+									"            }",
+									"        };",
+									"        pm.response.to.have.jsonSchema(schema);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-Branch",
+								"value": "042",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Format",
+								"value": "BBLAPC",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Channel",
+								"value": "IB",
+								"type": "text"
+							},
+							{
+								"key": "BBL-TraceID",
+								"value": "100098010000910POAIB021",
+								"type": "text"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "100098010000910POAIB021",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Language",
+								"value": "EN",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-12",
+								"type": "text"
+							},
+							{
+								"key": "BBL-AdditonalInfo",
+								"value": "TESTONLY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/2023061409403724000360708/from-bank-code/002",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"2023061409403724000360708",
+								"from-bank-code",
+								"002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0178_Get promptpay transaction data already void",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"8405\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Transaction already void\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-Branch",
+								"value": "014",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Format",
+								"value": "BBLAPC",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Channel",
+								"value": "IB",
+								"type": "text"
+							},
+							{
+								"key": "BBL-TraceID",
+								"value": "100098010000910POAIB00918-00918",
+								"type": "text"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "100098010000910POAIB021-918",
+								"type": "text"
+							},
+							{
+								"key": "BBL-Language",
+								"value": "TH",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-12",
+								"type": "text"
+							},
+							{
+								"key": "BBL-AdditonalInfo",
+								"value": "TESTONLY TESTONLY BBLBKK 001",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/0000000000000000000000000/from-bank-code/000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"0000000000000000000000000",
+								"from-bank-code",
+								"000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0179_Get promptpay transaction data invalid destination bank",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"6501\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Destination bank does not support or Invalid Destination bank\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "100098010000910POAIB021-918",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-12",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/0000000000000000000000000/from-bank-code/099",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"0000000000000000000000000",
+								"from-bank-code",
+								"099"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0180_Get promptpay transaction data destination bank cannot be reached",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"8503\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Destination bank cannot be reached\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "BBL-MessageID",
+								"value": "100098010000910POAIB021-918",
+								"type": "text"
+							},
+							{
+								"key": "BBL-RequestDateTime",
+								"value": "2023-12-12",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/0000000000000000000000000/from-bank-code/098",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"0000000000000000000000000",
+								"from-bank-code",
+								"098"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0181_Get promptpay transaction data invalid biller code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"8401\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Invalid biller code\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/0000000000000000000000999/from-bank-code/000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"0000000000000000000000999",
+								"from-bank-code",
+								"000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0182_Get promptpay transaction invalid data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"8402\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Invalid data\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/9999999999999999999999999/from-bank-code/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"9999999999999999999999999",
+								"from-bank-code",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0183_Get promptpay transaction invalid trans-ref-num",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"0001\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Not found\");",
+									"        pm.expect(jsonData.remark).to.include(\"Transaction not found (This field shows in Sandbox only)\")",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/1111111111111001IMF2063/from-bank-code/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"1111111111111001IMF2063",
+								"from-bank-code",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0184_Get promptpay transaction invalid from-bank-code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"0001\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Not found\");",
+									"        pm.expect(jsonData.remark).to.include(\"Transaction not found (This field shows in Sandbox only)\")",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/325012011110IMF2063A57AB/from-bank-code/191",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"325012011110IMF2063A57AB",
+								"from-bank-code",
+								"191"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0185_Get promptpay transaction invalid trans-ref-num and from-bank-code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.status.code).to.include(\"0001\");",
+									"        pm.expect(jsonData.status.desc).to.include(\"Not found\");",
+									"        pm.expect(jsonData.remark).to.include(\"Transaction not found (This field shows in Sandbox only)\")",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/111012011110IMF2063A57AB/from-bank-code/99",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"111012011110IMF2063A57AB",
+								"from-bank-code",
+								"99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0186_Get promptpay transaction data missing from-bank-code in path parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.statusCode).to.eq(404);",
+									"        pm.expect(jsonData.message).to.include(\"Cannot GET /esis/channel-services/promptpay-transactions/trans-ref-num/325012011110IMF2063A57AB\");",
+									"        pm.expect(jsonData.error).to.include(\"Not Found\")",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/trans-ref-num/325012011110IMF2063A57AB",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"trans-ref-num",
+								"325012011110IMF2063A57AB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC_M0187_Get promptpay transaction data missing from-bank-code in path parameter Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"",
+									"    pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);",
+									"    });",
+									"   pm.test(\"Body contains string\",() => {",
+									"      let jsonData = pm.response.json()",
+									"        pm.expect(jsonData.statusCode).to.eq(404);",
+									"        pm.expect(jsonData.message).to.include(\"Cannot GET /esis/channel-services/promptpay-transactions/from-bank-code/191\");",
+									"        pm.expect(jsonData.error).to.include(\"Not Found\")",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{basicAuthProxyPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{basicAuthProxyUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/esis/channel-services/promptpay-transactions/from-bank-code/191",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"esis",
+								"channel-services",
+								"promptpay-transactions",
+								"from-bank-code",
+								"191"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -8291,95 +10089,120 @@
 	"variable": [
 		{
 			"key": "request-ref",
-			"value": ""
+			"value": "20231124170622"
 		},
 		{
 			"key": "reference1",
-			"value": ""
+			"value": "2023112417062201"
 		},
 		{
 			"key": "billerId",
-			"value": ""
+			"value": "202311241706220"
 		},
 		{
 			"key": "requestDate",
-			"value": ""
+			"value": "2023-11-24"
 		},
 		{
 			"key": "requestTime",
-			"value": ""
+			"value": "17:06:22"
 		},
 		{
 			"key": "transmit-date-time",
-			"value": ""
+			"value": "2023-11-24T17:06:22.855+07:00"
 		},
 		{
 			"key": "dup_requestref",
-			"value": ""
+			"value": "20231124164436"
 		},
 		{
 			"key": "dup_billerId",
-			"value": ""
+			"value": "202311241644360"
 		},
 		{
 			"key": "dup_reference1",
-			"value": ""
+			"value": "2023112416443601"
 		},
 		{
 			"key": "request-ref-void",
-			"value": ""
+			"value": "11242023162133"
 		},
 		{
 			"key": "reference1-void",
-			"value": ""
+			"value": "241120231621331"
 		},
 		{
 			"key": "billerId-void",
-			"value": ""
+			"value": "241120231621332"
 		},
 		{
 			"key": "paymentRequestId",
-			"value": ""
+			"value": "12803e36ffde44c7a"
 		},
 		{
 			"key": "approvalCode",
-			"value": ""
+			"value": "d8bf4d"
 		},
 		{
 			"key": "request-ref-prevoid",
-			"value": ""
+			"value": "16105820231124"
 		},
 		{
 			"key": "reference1-prevoid",
-			"value": ""
+			"value": "1610582023112401"
 		},
 		{
 			"key": "billerId-prevoid",
-			"value": ""
+			"value": "161058202311240"
 		},
 		{
 			"key": "approvalCode-prevoid",
-			"value": ""
+			"value": "f9b1fd"
 		},
 		{
 			"key": "request-ref-reversal",
-			"value": ""
+			"value": "16151424112023"
 		},
 		{
 			"key": "reference1-reversal",
-			"value": ""
+			"value": "1615142411202301"
 		},
 		{
 			"key": "billerId-reversal",
-			"value": ""
+			"value": "161514241120230"
 		},
 		{
 			"key": "approvalCode-reversal",
-			"value": ""
+			"value": "7960b4"
 		},
 		{
 			"key": "approvalCode-advice",
-			"value": ""
+			"value": "d44f0b"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://mockapi.techlabth.com",
+			"type": "string"
+		},
+		{
+			"key": "basicAuthProxyUser",
+			"value": "proxy",
+			"type": "string"
+		},
+		{
+			"key": "basicAuthProxyPassword",
+			"value": "proxy",
+			"type": "string"
+		},
+		{
+			"key": "basicAuthDevPortalUser",
+			"value": "dev_portal",
+			"type": "string"
+		},
+		{
+			"key": "basicAuthDevPortalPassword",
+			"value": "dev_portal",
+			"type": "string"
 		}
 	]
 }
