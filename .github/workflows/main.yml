@@ -22,5 +22,5 @@ jobs:
       - name: Run POSTMAN collection for Mock
         run: |
          newman run ./Mock/Mock_Test_Suite.postman_collection.json -e ./Mock/Test_Mock.postman_environment.json 
-         -r htmlextra --reporter-htmlextra-export mock_result.html --reporter-htmlextra-darkTheme > runreport1_mock.html
+         --reporter-htmlextra-export mock_result.html --verbose
         
